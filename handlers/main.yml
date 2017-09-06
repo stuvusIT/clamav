@@ -1,0 +1,8 @@
+---
+- name: Restart clamav
+  service:
+    name: "{{ item }}"
+    state: restarted
+  with_items:
+    - clamd
+    - freshclamd
