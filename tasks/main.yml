@@ -59,7 +59,8 @@
   when: tmpfiles.changed
 
 - name: Reload systemd
-  command: systemctl daemon-reload
+  systemd:
+    daemon_reload: true
   when: clamd_unit.changed
 
 - name: Download initial clam databases
