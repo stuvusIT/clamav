@@ -1,7 +1,7 @@
 galaxy_info:
   author: Janne Heß
   description: Install and configure a clamav daemon with freshclam
-  company: stuvus (http://stuvus.uni-stuttgart.de)
+  company: stuvus (https://stuvus.uni-stuttgart.de)
 
   license: CC-BY-SA
 
@@ -19,7 +19,6 @@ galaxy_info:
     versions:
     - all
     - any
-
 
   galaxy_tags:
     - clam
