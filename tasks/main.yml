@@ -65,7 +65,7 @@
 
 - name: Download initial clam databases
   command:
-    cmd: freshclamd
+    cmd: freshclam
     creates: /var/lib/clamav/main.cvd
 
 - name: Start services
