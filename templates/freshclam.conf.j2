@@ -1,0 +1,8 @@
+# {{ ansible_managed }}
+
+NotifyClamd    /etc/clamav/clamd.conf
+PidFile        /run/clamav/freshclamd.pid
+UpdateLogFile  /var/log/clamav/freshclam.log
+LogSyslog      true
+Checks         {{ clamav_checks }}
+DatabaseMirror {{ clamav_mirror }}
