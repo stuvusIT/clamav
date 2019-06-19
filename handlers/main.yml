@@ -4,5 +4,5 @@
     name: "{{ item }}"
     state: restarted
   with_items:
-    - clamd
-    - freshclamd
+    - clamav-daemon
+    - clamav-freshclam

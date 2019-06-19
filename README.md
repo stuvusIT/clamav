@@ -4,7 +4,7 @@ This role installs and configures a clamav daemon including freshclamd for datab
 
 ## Requirements
 
-Arch Linux or Ubuntu
+Debian
 
 ## Role Variables
 
@@ -18,8 +18,8 @@ Arch Linux or Ubuntu
 ```yml
 - hosts: av
   roles:
-  - clamav
-     clamav_checks: 24
+    - clamav
+      clamav_checks: 24
 ```
 
 ## License
