@@ -1,49 +1,18 @@
 ---
-- name: Update repositories cache (apt)
+- name: Install clamav
   apt:
-    update_cache: yes
-  changed_when: false
-  when: ansible_pkg_mgr == "apt"
+    name:
+      - clamav
+      - clamav-daemon
 
-- name: Install required packages (apt)
-  apt:
-    name: clamav
-  when: ansible_pkg_mgr == "apt"
-
-- name: Update repositories cache (pacman)
-  pacman:
-    update_cache: yes
-  changed_when: false
-  when: ansible_pkg_mgr == "pacman"
-
-- name: Install required packages (pacman)
-  pacman:
-    name: clamav
-  when: ansible_pkg_mgr == "pacman"
-
-- name: Create configurations
+- name: Create freshclam configurations
   template:
-    src: "{{ item }}.conf.j2"
-    dest: /etc/clamav/{{ item }}.conf
+    src: freshclam.conf.j2
+    dest: /etc/clamav/freshclam.conf
     owner: root
     group: clamav
     mode: 0640
   notify: Restart clamav
-  with_items:
-    - clamd
-    - freshclam
-
-- name: Create units
-  template:
-    src: "{{ item }}.service.j2"
-    dest: /etc/systemd/system/{{ item }}.service
-    owner: root
-    group: root
-    mode: 0644
-  register: clamd_unit
-  with_items:
-    - clamd
-    - freshclamd
 
 - name: Create tmpfiles configuration
   template:
@@ -54,25 +23,20 @@
     mode: 0644
   register: tmpfiles
 
-- name: Create tmpfiles
+- name: Create systemd tmpfiles
   command: systemd-tmpfiles --create
   when: tmpfiles.changed
-
-- name: Reload systemd
-  systemd:
-    daemon_reload: true
-  when: clamd_unit.changed
 
 - name: Download initial clam databases
   command:
     cmd: freshclam
     creates: /var/lib/clamav/main.cvd
 
-- name: Start services
+- name: Start and enable services
   service:
     name: "{{ item }}"
     state: started
     enabled: yes
-  with_items:
-    - clamd
-    - freshclamd
+  loop:
+    - clamav-daemon
+    - clamav-freshclam
