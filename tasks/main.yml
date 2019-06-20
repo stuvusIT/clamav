@@ -14,19 +14,6 @@
     mode: 0640
   notify: Restart clamav
 
-- name: Create tmpfiles configuration
-  template:
-    src: tmpfiles.conf.j2
-    dest: /etc/tmpfiles.d/clamav.conf
-    owner: root
-    group: root
-    mode: 0644
-  register: tmpfiles
-
-- name: Create systemd tmpfiles
-  command: systemd-tmpfiles --create
-  when: tmpfiles.changed
-
 - name: Download initial clam databases
   command:
     cmd: freshclam
