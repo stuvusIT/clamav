@@ -4,6 +4,7 @@
     name:
       - clamav
       - clamav-daemon
+  register: apt_install
 
 - name: Create freshclam configurations
   template:
@@ -18,6 +19,7 @@
   command:
     cmd: freshclam
     creates: /var/lib/clamav/main.cvd
+  when: apt_install.changed
 
 - name: Start and enable services
   service:
